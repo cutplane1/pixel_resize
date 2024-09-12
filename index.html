@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <img hidden id="i" src="/58TXW7NMAXT5QQH12P90CRQ7F0.jpg">
+    <canvas id="canvas"></canvas>
+    <canvas id="canvas_res"></canvas>
+    <script>
+
+        const img = document.getElementById('i')
+
+        img.onload = main
+
+        function main() {
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const canvas_res = document.getElementById('canvas_res');
+        const ctx_res = canvas_res.getContext('2d');
+        canvas.width = img.width
+        canvas.height = img.height
+
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        pix_size = 20
+        
+        pix_width = canvas.width / pix_size
+        pix_height = canvas.height / pix_size
+        canvas_res.width = pix_width
+        canvas_res.height = pix_height
+
+        for (let i = 0; i < canvas.width; i += pix_size) {
+            for (let j = 0; j < canvas.height; j += pix_size) {
+                imgd = ctx.getImageData(i, j, 1, 1).data
+                ctx_res.fillStyle = `rgb(${imgd[0]}, ${imgd[1]}, ${imgd[2]})`
+                ctx_res.fillRect(i / pix_size, j / pix_size, 1, 1)
+        }}
+        var image = canvas_res.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        window.location.href=image;
+        }
+
+
+    </script>
+</body>
+
+</html>
